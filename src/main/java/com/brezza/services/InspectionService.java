@@ -42,7 +42,7 @@ public class InspectionService {
 		inspection.setVehicle(vehicle);
 		return inspectionRepository.save(inspection);
 	}
-	public Inspection uptadeInspection(UUID id, InspectionDto inspectionDto) {
+	public Inspection updateInspection(UUID id, InspectionDto inspectionDto) {
 		var inspection = findById(id);
 		var vehicle = vehicleService.findById(inspectionDto.vehicleId());
 		var inspector = userRepository.findById(inspectionDto.userId()).orElseThrow(()-> new RuntimeException("Cannot be found"));

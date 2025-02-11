@@ -36,7 +36,7 @@ public class VehicleService {
 		vehicle.setOwner(owner);
 		return vehicleRepository.save(vehicle);
 	}
-	public Vehicle uptadeVehicle(UUID id, VehicleDto vehicleDto) {
+	public Vehicle updateVehicle(UUID id, VehicleDto vehicleDto) {
 		var vehicle= findById(id);
 		var owner = userRepository.findById(vehicleDto.owner()).orElseThrow(()-> new RuntimeException("Cannot be found"));
 		BeanUtils.copyProperties(vehicleDto, vehicle);

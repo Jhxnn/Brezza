@@ -38,7 +38,7 @@ public class UserService {
                 .toList();
 	}
 	
-	public UserResponseDto uptadeUser(UUID id, UserRequestDto userRequestDto) {
+	public UserResponseDto updateUser(UUID id, UserRequestDto userRequestDto) {
 		var user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("Cannot be found"));
 		BeanUtils.copyProperties(userRequestDto, user);
 		userRepository.save(user);
