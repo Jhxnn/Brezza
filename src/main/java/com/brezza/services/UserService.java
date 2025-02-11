@@ -38,6 +38,19 @@ public class UserService {
                 .toList();
 	}
 	
+	public UserResponseDto uptadeUser(UUID id, UserRequestDto userRequestDto) {
+		var user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("Cannot be found"));
+		BeanUtils.copyProperties(userRequestDto, user);
+		userRepository.save(user);
+		return new UserResponseDto(user.getUserId(), user.getName(), user.getEmail(), user.getType());
+		
+	}
+	
+	public void deleteUser(UUID id) {
+		var user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("Cannot be found"));
+		userRepository.delete(user);
+	}
+	
 	
 	
 	
