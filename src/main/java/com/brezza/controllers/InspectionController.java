@@ -68,6 +68,7 @@ public class InspectionController {
                                                        @RequestBody InspectionDto inspectionDto) {
         return ResponseEntity.status(HttpStatus.OK).body(inspectionService.updateInspection(id, inspectionDto));
     }
+    
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteInspection(@PathVariable(name = "id") UUID id) {

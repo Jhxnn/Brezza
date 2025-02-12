@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,6 +36,16 @@ public class ReportController {
     public ResponseEntity<Report> findById(@PathVariable(name = "id") UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(reportService.findById(id));
     }
+
+    @GetMapping("/pdf/{id}")
+    public ResponseEntity<byte[]> generatePdf(@PathVariable(name = "id")UUID id){
+    	byte[] pdfBytes = reportService.generatePdf(id);
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.add(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=relatorio.pdf");
+	    headers.add(HttpHeaders.CONTENT_TYPE, "application/pdf");
+	    return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+	}
+
 
     @PostMapping
     public ResponseEntity<Report> createReport(@RequestBody ReportDto reportDto) {
