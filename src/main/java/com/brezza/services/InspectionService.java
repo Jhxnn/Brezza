@@ -1,5 +1,6 @@
 package com.brezza.services;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.brezza.dtos.InspectionDto;
 import com.brezza.models.Inspection;
+import com.brezza.models.enums.InspectionStatus;
 import com.brezza.repositories.InspectionRepository;
 import com.brezza.repositories.UserRepository;
 
@@ -32,6 +34,23 @@ public class InspectionService {
 	public List<Inspection> findAll(){
 		return inspectionRepository.findAll();
 	}
+	public List<Inspection> findByVehicle(UUID id){
+		var vehicle = vehicleService.findById(id);
+		return inspectionRepository.findByVehicle(vehicle);
+	}
+	
+	public List<Inspection> findByStatus(InspectionStatus status){
+		return inspectionRepository.findByStatus(status);
+	}
+	
+	public List<Inspection> findByInspector(UUID id){
+		var inspector = userRepository.findById(id).orElseThrow(()-> new RuntimeException("Cannot be found"));
+		return inspectionRepository.findByInspector(inspector);
+	}
+	
+	public List<Inspection> findByDate(LocalDate date){
+		return inspectionRepository.findByDate(date);
+	}
 	
 	public Inspection createInspection(InspectionDto inspectionDto) {
 		var inspection = new Inspection();
@@ -42,6 +61,7 @@ public class InspectionService {
 		inspection.setVehicle(vehicle);
 		return inspectionRepository.save(inspection);
 	}
+	
 	public Inspection updateInspection(UUID id, InspectionDto inspectionDto) {
 		var inspection = findById(id);
 		var vehicle = vehicleService.findById(inspectionDto.vehicleId());

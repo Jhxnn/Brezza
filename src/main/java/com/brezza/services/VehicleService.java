@@ -29,6 +29,11 @@ public class VehicleService {
 		return vehicleRepository.findAll();
 	}
 	
+	public List<Vehicle> findByOwner(UUID ownerId){
+		var owner = userRepository.findById(ownerId).orElseThrow(()-> new RuntimeException("Cannot be found"));
+		return vehicleRepository.findByOwner(owner);
+	}
+	
 	public Vehicle createVehicle(VehicleDto vehicleDto) {
 		var vehicle = new Vehicle();
 		var owner = userRepository.findById(vehicleDto.owner()).orElseThrow(()-> new RuntimeException("Cannot be found"));

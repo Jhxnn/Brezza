@@ -35,6 +35,12 @@ public class VehicleController {
     public ResponseEntity<Vehicle> findById(@PathVariable(name = "id") UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(vehicleService.findById(id));
     }
+    
+    @GetMapping("/owner/{id}")
+    public ResponseEntity<List<Vehicle>> findByOwner(@PathVariable(name = "id")UUID id){
+    	return ResponseEntity.status(HttpStatus.OK).body(vehicleService.findByOwner(id));
+    }
+    
 
     @PostMapping
     public ResponseEntity<Vehicle> createVehicle(@RequestBody VehicleDto vehicleDto) {
