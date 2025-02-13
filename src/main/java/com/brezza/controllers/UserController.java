@@ -15,9 +15,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.brezza.dtos.AuthDto;
 import com.brezza.dtos.UserRequestDto;
 import com.brezza.dtos.UserResponseDto;
+import com.brezza.infra.security.TokenService;
+import com.brezza.repositories.UserRepository;
+import com.brezza.services.EmailService;
 import com.brezza.services.UserService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/user")
@@ -25,6 +31,15 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	EmailService emailService;	
+	
+	@Autowired
+	UserRepository userRepository;
+	
+	@Autowired
+	TokenService tokenService;
 	
 	@GetMapping
 	public ResponseEntity<List<UserResponseDto>> findAll(){
@@ -35,11 +50,16 @@ public class UserController {
 	public ResponseEntity<UserResponseDto> findById(@PathVariable(name = "id")UUID id){
 		return ResponseEntity.status(HttpStatus.OK).body(userService.findById(id));
 	}
-	
-	@PostMapping
-	public ResponseEntity<UserResponseDto> createUser(@RequestBody UserRequestDto userRequestDto){
-		return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(userRequestDto));
+	@PostMapping("/login")
+	public ResponseEntity<String> login(@RequestBody @Valid AuthDto authDto) {
+		return ResponseEntity.ok().body(userService.returnToken(authDto));
 	}
+	
+	@PostMapping("/register")
+	public ResponseEntity<UserResponseDto> register(@RequestBody @Valid  UserRequestDto userRequestDto) {
+		return ResponseEntity.ok().body(userService.createUser(userRequestDto));
+	}
+
 	@PutMapping("/{id}")
 	public ResponseEntity<UserResponseDto> updateUser(@PathVariable(name = "id")UUID id,
 			@RequestBody UserRequestDto userRequestDto){
