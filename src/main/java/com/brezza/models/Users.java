@@ -1,7 +1,13 @@
 package com.brezza.models;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.brezza.models.enums.UserType;
 
@@ -14,7 +20,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users")
-public class Users {
+public class Users implements UserDetails{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -78,6 +84,40 @@ public class Users {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
     }
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		if(this.type == UserType.INSPECTOR) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+		else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+	}
+
+
+	
+	 @Override
+	    public boolean isAccountNonExpired() {
+	        return true;
+	    }
+
+	    @Override
+	    public boolean isAccountNonLocked() {
+	        return true;
+	    }
+
+	    @Override
+	    public boolean isCredentialsNonExpired() {
+	        return true;
+	    }
+
+	    @Override
+	    public boolean isEnabled() {
+	        return true;
+	    }
+
+		@Override
+		public String getUsername() {
+			// TODO Auto-generated method stub
+			return email;
+		}
 	
 	
 	
