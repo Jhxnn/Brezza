@@ -1,5 +1,5 @@
 package com.brezza.dtos;
 
-public record PaymentDto() {
+public record PaymentDto(String description, double value, String format) {
 
 }
