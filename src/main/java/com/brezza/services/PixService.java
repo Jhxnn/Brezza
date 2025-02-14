@@ -2,6 +2,7 @@ package com.brezza.services;
 
 import java.io.IOException;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -17,18 +18,26 @@ import okhttp3.Response;
 public class PixService {
 	
 	@Value("${asaas.api.token}")
-    private static String asaasToken;
+    private String asaasToken;
 	
 	@Value("${address.key}")
-	private static String addressKey;
+	private String addressKey;
 	
     private static final String API_URL = "https://api-sandbox.asaas.com/v3/pix/qrCodes/static";
-    private static final String ACCESS_TOKEN = asaasToken;
+    private  final String ACCESS_TOKEN = asaasToken;
     private final OkHttpClient client = new OkHttpClient();
 
     public String gerarQRCode(PaymentDto paymentDto) throws IOException {
         MediaType mediaType = MediaType.parse("application/json");
-        RequestBody body = RequestBody.create(mediaType, "{\"addressKey\":\""+ addressKey + "\",\"format\":\"PAYLOAD\",\"value\":" +paymentDto.value() + "\"description\":\""+ paymentDto.description() +"\"}");
+        JSONObject json = new JSONObject();
+        json.put("addressKey", addressKey);
+        json.put("format", "PAYLOAD");
+        json.put("value", paymentDto.value());
+        json.put("description", paymentDto.description());
+
+        String jsonBody = json.toString();
+
+        RequestBody body = RequestBody.create(jsonBody, mediaType);
         Request request = new Request.Builder()
                 .url(API_URL)
                 .post(body)
