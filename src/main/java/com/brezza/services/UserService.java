@@ -25,6 +25,9 @@ public class UserService {
 	UserRepository userRepository;
 	
 	@Autowired
+	KafkaProducerService kafkaProducerService;
+	
+	@Autowired
 	private AuthenticationManager authenticationManager;
 	
 	@Autowired
@@ -39,7 +42,7 @@ public class UserService {
 		var user = new Users();
 		BeanUtils.copyProperties(userRequestDto, user);
 		user.setPassword(encryptedPass);
-		emailService.enviarEmailTexto(user.getEmail(), "Conta Criada - BREZZA", "Sua conta foi criada com sucesso. \nBem vindo ao BREZZA, " + user.getName()+ ". \nChave de de verificação: 443. \nQualquer duvida contate nosso suporte! ");
+	    kafkaProducerService.sendEmailEvent(user.getEmail(), user.getName());
 		userRepository.save(user);
 		return new UserResponseDto(user.getUserId(), user.getName(), user.getEmail(), user.getType());
 	}

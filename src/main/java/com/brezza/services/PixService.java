@@ -27,6 +27,9 @@ public class PixService {
 	UserRepository userRepository;
 	
 	@Autowired
+	KafkaProducerService kafkaProducerService;
+	
+	@Autowired
 	PaymentRepository paymentRepository;
 	
 	@Value("${asaas.api.token}")
@@ -78,6 +81,7 @@ public class PixService {
             payment.setPayload(payload);
             payment.setStatus(PaymentStatus.PENDING);
             paymentRepository.save(payment);
+            kafkaProducerService.sendGenerateQRCodeMessage(qrCodeId, paymentDto.value(), paymentDto.description());
             return payment;
         }
     }
@@ -109,6 +113,7 @@ public class PixService {
             }
             payment.setStatus(PaymentStatus.PAYED);
             paymentRepository.save(payment);
+            kafkaProducerService.sendPaymentApprovedMessage(payment.getIdQr(), payment.getValue(), payment.getDescription());
             return response.body() != null ? response.body().string() : "Pagamento efetuado";
         }
     }
