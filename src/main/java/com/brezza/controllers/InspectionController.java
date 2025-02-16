@@ -21,6 +21,8 @@ import com.brezza.models.Inspection;
 import com.brezza.models.enums.InspectionStatus;
 import com.brezza.services.InspectionService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/inspection")
 public class InspectionController {
@@ -28,48 +30,58 @@ public class InspectionController {
     @Autowired
     InspectionService inspectionService;
 
+    
+    @Operation(description = "Lista todas as vistorias")
     @GetMapping
     public ResponseEntity<List<Inspection>> findAll() {
         return ResponseEntity.status(HttpStatus.OK).body(inspectionService.findAll());
     }
 
+    @Operation(description = "Lista vistoria por id")
     @GetMapping("/{id}")
     public ResponseEntity<Inspection> findById(@PathVariable(name = "id") UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(inspectionService.findById(id));
     }
     
+    @Operation(description = "Lista vistoria por veiculo")
     @GetMapping("/vehicle/{id}")
     public ResponseEntity<List<Inspection>> findByVehicle(@PathVariable(name = "id")UUID id){
     	return ResponseEntity.status(HttpStatus.OK).body(inspectionService.findByVehicle(id));
     }
     
+    @Operation(description = "Lista vistoria por vistoriador")
     @GetMapping("/inspector/{id}")
     public ResponseEntity<List<Inspection>> findByInspector(@PathVariable(name ="id")UUID id){
     	return ResponseEntity.status(HttpStatus.OK).body(inspectionService.findByInspector(id));
     }
     
+    
+    @Operation(description = "Lista vistoria por status")
     @GetMapping("/status/{status}")
     public ResponseEntity<List<Inspection>> findByStatus(@PathVariable(name = "status")InspectionStatus status){
     	return ResponseEntity.status(HttpStatus.OK).body(inspectionService.findByStatus(status));
     }
     
+    @Operation(description = "Lista vistoria por data")
     @GetMapping("/date/{date}")
     public ResponseEntity<List<Inspection>> findByDate (@PathVariable(name = "id")LocalDate date){
     	return ResponseEntity.status(HttpStatus.OK).body(inspectionService.findByDate(date));
     }
     
+    @Operation(description = "Cria vistoria")
     @PostMapping
     public ResponseEntity<Inspection> createInspection(@RequestBody InspectionDto inspectionDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(inspectionService.createInspection(inspectionDto));
     }
 
+    @Operation(description = "Atualiza vistoria")
     @PutMapping("/{id}")
     public ResponseEntity<Inspection> updateInspection(@PathVariable(name = "id") UUID id,
                                                        @RequestBody InspectionDto inspectionDto) {
         return ResponseEntity.status(HttpStatus.OK).body(inspectionService.updateInspection(id, inspectionDto));
     }
     
-
+    @Operation(description = "Deleta Vistoria")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteInspection(@PathVariable(name = "id") UUID id) {
         inspectionService.deleteInspection(id);

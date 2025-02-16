@@ -19,6 +19,8 @@ import com.brezza.dtos.ScheduleDto;
 import com.brezza.models.Schedule;
 import com.brezza.services.ScheduleService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/schedule")
 public class ScheduleController {
@@ -26,27 +28,32 @@ public class ScheduleController {
     @Autowired
     ScheduleService scheduleService;
 
+    @Operation(description = "Lista todas as agendas")
     @GetMapping
     public ResponseEntity<List<Schedule>> findAll() {
         return ResponseEntity.status(HttpStatus.OK).body(scheduleService.findAll());
     }
 
+    @Operation(description = "Lista agenda pelo id")
     @GetMapping("/{id}")
     public ResponseEntity<Schedule> findById(@PathVariable(name = "id") UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(scheduleService.findById(id));
     }
 
+    @Operation(description = "Cria uma agenda")
     @PostMapping
     public ResponseEntity<Schedule> createSchedule(@RequestBody ScheduleDto scheduleDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(scheduleService.createSchedule(scheduleDto));
     }
 
+    @Operation(description = "Atualiza agenda")
     @PutMapping("/{id}")
     public ResponseEntity<Schedule> updateSchedule(@PathVariable(name = "id") UUID id,
                                                    @RequestBody ScheduleDto scheduleDto) {
         return ResponseEntity.status(HttpStatus.OK).body(scheduleService.updateSchedule(id, scheduleDto));
     }
 
+    @Operation(description = "Deleta uma agenda")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSchedule(@PathVariable(name = "id") UUID id) {
         scheduleService.deleteSchedule(id);

@@ -23,6 +23,7 @@ import com.brezza.repositories.UserRepository;
 import com.brezza.services.EmailService;
 import com.brezza.services.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
@@ -41,30 +42,39 @@ public class UserController {
 	@Autowired
 	TokenService tokenService;
 	
+	
+	@Operation(description = "Lista todos os usuarios")
 	@GetMapping
 	public ResponseEntity<List<UserResponseDto>> findAll(){
 		return ResponseEntity.status(HttpStatus.OK).body(userService.findAll());
 	}
 	
+	@Operation(description = "Lista usuario pelo id")
 	@GetMapping("/{id}")
 	public ResponseEntity<UserResponseDto> findById(@PathVariable(name = "id")UUID id){
 		return ResponseEntity.status(HttpStatus.OK).body(userService.findById(id));
 	}
+	
+	@Operation(description = "Logar usuario")
 	@PostMapping("/login")
 	public ResponseEntity<String> login(@RequestBody @Valid AuthDto authDto) {
 		return ResponseEntity.ok().body(userService.returnToken(authDto));
 	}
 	
+	@Operation(description = "Registrar usuario")
 	@PostMapping("/register")
 	public ResponseEntity<UserResponseDto> register(@RequestBody @Valid  UserRequestDto userRequestDto) {
 		return ResponseEntity.ok().body(userService.createUser(userRequestDto));
 	}
 
+	@Operation(description = "Atualizar usuario")
 	@PutMapping("/{id}")
 	public ResponseEntity<UserResponseDto> updateUser(@PathVariable(name = "id")UUID id,
 			@RequestBody UserRequestDto userRequestDto){
 		return ResponseEntity.status(HttpStatus.CREATED).body(userService.updateUser(id, userRequestDto));
 	}
+	
+	@Operation(description = "Deletar usuario")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteUser(@PathVariable(name = "id")UUID id){
 		userService.deleteUser(id);

@@ -20,6 +20,8 @@ import com.brezza.dtos.ReportDto;
 import com.brezza.models.Report;
 import com.brezza.services.ReportService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/report")
 public class ReportController {
@@ -27,16 +29,20 @@ public class ReportController {
     @Autowired
     ReportService reportService;
 
+    
+    @Operation(description = "Lista todos os relatorios")
     @GetMapping
     public ResponseEntity<List<Report>> findAll() {
         return ResponseEntity.status(HttpStatus.OK).body(reportService.findAll());
     }
 
+    @Operation(description = "Lista relatorio por id")
     @GetMapping("/{id}")
     public ResponseEntity<Report> findById(@PathVariable(name = "id") UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(reportService.findById(id));
     }
 
+    @Operation(description = "Gera pdf pelo id do relatorio")
     @GetMapping("/pdf/{id}")
     public ResponseEntity<byte[]> generatePdf(@PathVariable(name = "id")UUID id){
     	byte[] pdfBytes = reportService.generatePdf(id);
@@ -46,18 +52,20 @@ public class ReportController {
 	    return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
 	}
 
-
+    @Operation(description = "Cria um relatorio")
     @PostMapping
     public ResponseEntity<Report> createReport(@RequestBody ReportDto reportDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(reportService.createReport(reportDto));
     }
 
+    @Operation(description = "Atualiza um relatorio")
     @PutMapping("/{id}")
     public ResponseEntity<Report> updateReport(@PathVariable(name = "id") UUID id,
                                                @RequestBody ReportDto reportDto) {
         return ResponseEntity.status(HttpStatus.OK).body(reportService.updateReport(id, reportDto));
     }
 
+    @Operation(description = "Deleta um relatorio")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteReport(@PathVariable(name = "id") UUID id) {
         reportService.deleteReport(id);
