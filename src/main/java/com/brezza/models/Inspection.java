@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import com.brezza.models.enums.InspectionStatus;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,6 +20,7 @@ public class Inspection {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id")
 	private UUID inspectionId;
 	
 	@JoinColumn(name = "vehicle_id", referencedColumnName = "id")

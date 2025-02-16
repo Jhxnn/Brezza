@@ -5,14 +5,20 @@ import java.util.UUID;
 
 import com.brezza.models.enums.Result;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name= "reports")
 public class Report {
 
-	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id")
 	private UUID reportId;
 	
 	private Inspection inspection;
