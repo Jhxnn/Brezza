@@ -27,7 +27,7 @@ public class Schedule {
 	
 	@ManyToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
-	private Users inspector;
+	private User inspector;
 	
 	@ManyToOne
 	@JoinColumn(name = "vehicle_id", referencedColumnName = "id")
@@ -51,11 +51,11 @@ public class Schedule {
 		this.date = date;
 	}
 
-	public Users getInspector() {
+	public User getInspector() {
 		return inspector;
 	}
 
-	public void setInspector(Users inspector) {
+	public void setInspector(User inspector) {
 		this.inspector = inspector;
 	}
 

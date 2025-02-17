@@ -50,7 +50,6 @@ public class ReportService {
 			document.add(new Paragraph("Observations: " + report.getObservations()));
 			document.add(new Paragraph("Inspection: " + report.getInspection()));
 			document.close();
-			report.setDocumentPdf((Blob) document);
 			return byteArrayOutputStream.toByteArray();
 			
 		}

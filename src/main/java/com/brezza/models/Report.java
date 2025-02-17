@@ -27,7 +27,6 @@ public class Report {
 	
 	private String observations;
 	
-	private Blob documentPdf;
 
 	public UUID getReportId() {
 		return reportId;
@@ -61,13 +60,7 @@ public class Report {
 		this.observations = observations;
 	}
 
-	public Blob getDocumentPdf() {
-		return documentPdf;
-	}
-
-	public void setDocumentPdf(Blob documentPdf) {
-		this.documentPdf = documentPdf;
-	}
+	
 	
 	
 }

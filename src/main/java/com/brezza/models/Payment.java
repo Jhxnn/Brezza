@@ -25,7 +25,7 @@ public class Payment {
 	
 	@ManyToOne
 	@JoinColumn(name = "payer", referencedColumnName = "id")
-	private Users payer;
+	private User payer;
 	
 	private String idQr;
 	
@@ -62,11 +62,11 @@ public class Payment {
 		this.paymentId = paymentId;
 	}
 
-	public Users getPayer() {
+	public User getPayer() {
 		return payer;
 	}
 
-	public void setPayer(Users payer) {
+	public void setPayer(User payer) {
 		this.payer = payer;
 	}
 

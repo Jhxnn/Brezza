@@ -11,7 +11,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.brezza.models.Users;
+import com.brezza.models.User;
 
 @Service
 public class TokenService {
@@ -19,7 +19,7 @@ public class TokenService {
 	@Value("${api.security.token.secret}")
 	private String secret;
 
-	public String generateToken(Users user) {
+	public String generateToken(User user) {
 		try {
 			Algorithm algorithm = Algorithm.HMAC256(secret);
 			String token = JWT.create()

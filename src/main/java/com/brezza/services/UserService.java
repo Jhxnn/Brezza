@@ -14,7 +14,7 @@ import com.brezza.dtos.AuthDto;
 import com.brezza.dtos.UserRequestDto;
 import com.brezza.dtos.UserResponseDto;
 import com.brezza.infra.security.TokenService;
-import com.brezza.models.Users;
+import com.brezza.models.User;
 import com.brezza.repositories.UserRepository;
 
 @Service
@@ -39,7 +39,7 @@ public class UserService {
 	public UserResponseDto createUser(UserRequestDto userRequestDto) {
 		if(userRepository.findByEmail(userRequestDto.email()) != null) return null;
 		String encryptedPass = new BCryptPasswordEncoder().encode(userRequestDto.password());
-		var user = new Users();
+		var user = new User();
 		BeanUtils.copyProperties(userRequestDto, user);
 		user.setPassword(encryptedPass);
 	    kafkaProducerService.sendEmailEvent(user.getEmail(), user.getName());
@@ -50,7 +50,7 @@ public class UserService {
 	public String returnToken(AuthDto authDto) {
 		var usernamePassord = new UsernamePasswordAuthenticationToken(authDto.email(), authDto.password());
 		var auth = this.authenticationManager.authenticate(usernamePassord);
-		var token = tokenService.generateToken((Users) auth.getPrincipal());
+		var token = tokenService.generateToken((User) auth.getPrincipal());
 		return token;
 	}
 	

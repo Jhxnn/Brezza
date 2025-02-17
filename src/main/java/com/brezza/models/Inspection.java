@@ -27,7 +27,7 @@ public class Inspection {
 	private Vehicle vehicle;
 	
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
-	private Users inspector;
+	private User inspector;
 	
 	private LocalDate date;
 	
@@ -51,11 +51,11 @@ public class Inspection {
 		this.vehicle = vehicle;
 	}
 
-	public Users getInspector() {
+	public User getInspector() {
 		return inspector;
 	}
 
-	public void setInspector(Users inspector) {
+	public void setInspector(User inspector) {
 		this.inspector = inspector;
 	}
 

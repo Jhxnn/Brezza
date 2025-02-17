@@ -32,9 +32,9 @@ public class Vehicle {
 	
 	private String color;
 	
-	@ManyToOne
+	
 	@JoinColumn(name = "user_id",referencedColumnName = "id")
-	private Users owner;
+	private User owner;
 
 	public UUID getVehicleId() {
 		return vehicleId;
@@ -92,11 +92,11 @@ public class Vehicle {
 		this.color = color;
 	}
 
-	public Users getOwner() {
+	public User getOwner() {
 		return owner;
 	}
 
-	public void setOwner(Users owner) {
+	public void setOwner(User owner) {
 		this.owner = owner;
 	}
 	
