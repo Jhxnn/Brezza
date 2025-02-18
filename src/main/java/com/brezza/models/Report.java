@@ -1,6 +1,5 @@
 package com.brezza.models;
 
-import java.sql.Blob;
 import java.util.UUID;
 
 import com.brezza.models.enums.Result;

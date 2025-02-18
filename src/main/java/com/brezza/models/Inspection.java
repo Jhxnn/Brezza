@@ -7,10 +7,13 @@ import com.brezza.models.enums.InspectionStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -23,14 +26,18 @@ public class Inspection {
 	@Column(name = "id")
 	private UUID inspectionId;
 	
+	@ManyToOne
 	@JoinColumn(name = "vehicle_id", referencedColumnName = "id")
 	private Vehicle vehicle;
 	
+	@ManyToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User inspector;
 	
 	private LocalDate date;
 	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "status")
 	private InspectionStatus status;
 	
 	private String observation;
