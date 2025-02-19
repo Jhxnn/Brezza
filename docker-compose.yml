@@ -5,6 +5,8 @@ services:
     restart: always
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
+    networks:
+      - kafka_network
 
   kafka:
     image: confluentinc/cp-kafka:latest
@@ -18,7 +20,15 @@ services:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL: PLAINTEXT
+      KAFKA_LISTENER_NAME_INTERNAL: INTERNAL
+      KAFKA_LISTENER_INTERNAL_PORT: 9093
+      KAFKA_LISTENER_INTERNAL_HOST: 0.0.0.0
+      KAFKA_LISTENER_INTERNAL_ADVERTISED_HOST: kafka
+      KAFKA_LISTENER_INTERNAL_ADVERTISED_PORT: 9093
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - kafka_network
 
   postgres:
     image: postgres:latest
@@ -30,6 +40,8 @@ services:
       POSTGRES_DB: brezza
     ports:
       - "5432:5432"
+    networks:
+      - kafka_network
 
   app:
     build: .
@@ -44,3 +56,9 @@ services:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     ports:
       - "8080:8080"
+    networks:
+      - kafka_network
+
+networks:
+  kafka_network:
+    driver: bridge
