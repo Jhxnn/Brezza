@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 
 @Entity
@@ -19,8 +20,6 @@ public class Report {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
 	private UUID reportId;
-	
-	private Inspection inspection;
 	
 	private Result result;
 	
@@ -35,13 +34,7 @@ public class Report {
 		this.reportId = reportId;
 	}
 
-	public Inspection getInspection() {
-		return inspection;
-	}
-
-	public void setInspection(Inspection inspection) {
-		this.inspection = inspection;
-	}
+	
 
 	public Result getResult() {
 		return result;

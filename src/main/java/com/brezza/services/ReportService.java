@@ -48,7 +48,7 @@ public class ReportService {
 			
 			document.add(new Paragraph("Result: "  + report.getResult()));
 			document.add(new Paragraph("Observations: " + report.getObservations()));
-			document.add(new Paragraph("Inspection: " + report.getInspection()));
+			
 			document.close();
 			return byteArrayOutputStream.toByteArray();
 			
